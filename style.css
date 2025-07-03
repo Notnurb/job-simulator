@@ -1,0 +1,45 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #f9f9f9;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+.app {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+}
+header {
+    text-align: center;
+}
+section {
+    margin-top: 20px;
+}
+button {
+    padding: 10px 20px;
+    margin: 5px;
+    font-size: 16px;
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+button:hover {
+    background-color: #45a049;
+}
+.hidden {
+    display: none;
+}
+.shop, .inventory {
+    display: flex;
+    flex-wrap: wrap;
+}
+.shop div, .inventory div {
+    background: #fff;
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin: 5px;
+    width: 45%;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
