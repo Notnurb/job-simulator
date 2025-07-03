@@ -1,102 +1,88 @@
 body {
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #f0f4f8, #d9e2ec);
-    margin: 0;
-    padding: 0;
-    color: #333;
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", sans-serif;
+  background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+  color: #333;
 }
 
-.app {
-    max-width: 900px;
-    margin: 40px auto;
-    padding: 20px;
-    background: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+.container {
+  max-width: 900px;
+  margin: 50px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
 }
 
 header {
-    text-align: center;
-    margin-bottom: 20px;
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 header h1 {
-    font-size: 3rem;
-    color: #2c3e50;
-    margin-bottom: 10px;
+  margin: 0;
+  font-size: 3rem;
+  color: #1565c0;
 }
 
 header p {
-    font-size: 1.2rem;
-    color: #7f8c8d;
+  color: #555;
 }
 
-section {
-    margin-top: 30px;
-}
-
-h2 {
-    font-size: 2rem;
-    color: #34495e;
-    margin-bottom: 15px;
+.job-select,
+#jobPanel {
+  margin-top: 30px;
 }
 
 button {
-    padding: 12px 25px;
-    margin: 5px;
-    font-size: 16px;
-    background-color: #3498db;
-    border: none;
-    color: white;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s;
+  padding: 10px 20px;
+  background-color: #1976d2;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease;
 }
 
 button:hover {
-    background-color: #2980b9;
-    transform: translateY(-2px);
+  background-color: #0d47a1;
 }
 
-button:active {
-    transform: scale(0.98);
+.actions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 10px;
+  margin-top: 20px;
 }
 
-.stats p {
-    font-size: 1.1rem;
-    margin: 8px 0;
+.actions-grid button {
+  background-color: #64b5f6;
+  color: #fff;
 }
 
-.shop, .inventory {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-}
-
-.shop div, .inventory div {
-    background: #ecf0f1;
-    border: 1px solid #bdc3c7;
-    padding: 15px;
-    border-radius: 8px;
-    width: calc(50% - 10px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-}
-
-.shop div strong {
-    display: block;
-    font-size: 1.2rem;
-    color: #2c3e50;
-    margin-bottom: 8px;
+.actions-grid button:hover {
+  background-color: #42a5f5;
 }
 
 .hidden {
-    display: none;
+  display: none;
 }
 
-select {
-    padding: 10px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-    font-size: 1rem;
-    margin-right: 10px;
+.notification {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #388e3c;
+  color: #fff;
+  padding: 15px 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.5s ease;
+}
+.notification.show {
+  opacity: 1;
+  transform: translateY(0);
 }
