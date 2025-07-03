@@ -3,40 +3,221 @@
 <head>
     <meta charset="UTF-8">
     <title>Job Simulator</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f0f4f8, #d9e2ec);
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        .app {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        header h1 {
+            font-size: 3rem;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        header p {
+            font-size: 1.2rem;
+            color: #7f8c8d;
+        }
+        section {
+            margin-top: 30px;
+        }
+        h2 {
+            font-size: 2rem;
+            color: #34495e;
+            margin-bottom: 15px;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            font-size: 16px;
+            background-color: #3498db;
+            border: none;
+            color: white;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        button:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+        button:active {
+            transform: scale(0.98);
+        }
+        .hidden {
+            display: none;
+        }
+        .job-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #27ae60;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            animation: fadeInOut 4s forwards;
+        }
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: translateY(20px); }
+            10%, 90% { opacity: 1; transform: translateY(0); }
+            100% { opacity: 0; transform: translateY(20px); }
+        }
+    </style>
 </head>
 <body>
-    <div class="app">
-        <header>
-            <h1>Job Simulator</h1>
-            <p>Choose your job, earn money, and upgrade your life!</p>
-        </header>
-        <section class="job-selection">
-            <h2>Select Your Job</h2>
-            <select id="jobSelector"></select>
-            <button onclick="selectJob()">Start Job</button>
-        </section>
-        <section class="main-ui hidden">
-            <div class="stats">
-                <p><strong>Job:</strong> <span id="currentJob">None</span></p>
-                <p><strong>Money:</strong> $<span id="money">0</span></p>
-                <p><strong>Salary:</strong> $<span id="salary">0</span> / click</p>
-            </div>
-            <div class="actions">
-                <button onclick="doWork()">Work</button>
-                <button onclick="requestRaise()">Request Raise</button>
-                <button onclick="takeBreak()">Take a Break</button>
-            </div>
-            <div class="shop">
-                <h2>Shop</h2>
-                <div id="shopItems"></div>
-            </div>
-            <div class="inventory">
-                <h2>Your Upgrades</h2>
-                <div id="inventoryItems"></div>
-            </div>
-        </section>
-    </div>
-    <script src="script.js"></script>
+<div class="app">
+    <header>
+        <h1>Job Simulator</h1>
+        <p>Choose your career, perform tasks, and climb the ladder!</p>
+    </header>
+    <section class="job-selection">
+        <h2>Select Your Job</h2>
+        <select id="jobSelector"></select>
+        <button onclick="selectJob()">Start Job</button>
+    </section>
+    <section class="main-ui hidden">
+        <div class="stats">
+            <p><strong>Job:</strong> <span id="currentJob">None</span></p>
+            <p><strong>Money:</strong> $<span id="money">0</span></p>
+            <p><strong>Salary:</strong> $<span id="salary">0</span> / minute</p>
+            <button onclick="requestRaise()">Request Raise</button>
+        </div>
+        <div class="job-actions" id="jobActions"></div>
+    </section>
+</div>
+<div id="notificationContainer"></div>
+<script>
+const jobs = [
+    { name: "Software Developer", baseSalary: 1000, actions: [
+        "Write Code", "Fix Bugs", "Attend Standup", "Push to GitHub", "Review Pull Requests",
+        "Deploy to Production", "Refactor Code", "Update Documentation", "Pair Programming",
+        "Optimize Queries", "Attend Conference", "Brainstorm Features", "Read StackOverflow",
+        "Setup CI/CD", "Write Unit Tests", "Handle Merge Conflicts", "Mentor Junior Devs",
+        "Debug Memory Leaks", "Build Frontend UI", "Configure Webpack"
+    ]},
+    { name: "Teacher", baseSalary: 800, actions: [
+        "Grade Papers", "Prepare Lesson", "Call Parents", "Break Up Fight", "Assign Homework",
+        "Attend Meeting", "Supervise Recess", "Plan Field Trip", "Mark Attendance", "Create Quiz",
+        "Explain Concept", "Answer Questions", "Set Up Projector", "Encourage Students",
+        "Update Grades", "Write Report Cards", "Tutor After School", "Manage Classroom",
+        "Attend PTA", "Decorate Classroom"
+    ]},
+    { name: "Chef", baseSalary: 950, actions: [
+        "Chop Vegetables", "Cook Pasta", "Plate Dish", "Clean Kitchen", "Taste Test Soup",
+        "Prep Ingredients", "Bake Bread", "Order Supplies", "Create New Recipe",
+        "Serve Customers", "Train Sous Chef", "Sharpen Knives", "Check Inventory",
+        "Garnish Plate", "Flambé Dessert", "Wash Hands", "Make Sauce", "Flip Omelette",
+        "Marinate Meat", "Organize Pantry"
+    ]},
+    // Add 97 more jobs here with 20+ actions each
+];
+
+const raiseDenialReasons = [
+    "Budget cuts this quarter.",
+    "Management decided against it.",
+    "Your recent performance reviews were mixed.",
+    "We’re replacing your role with AI.",
+    "The CEO's cat ate your request form.",
+    "HR misplaced your paperwork.",
+    "Your Slack activity concerns us.",
+    "The board is on vacation.",
+    "Company profits are down.",
+    "It's not in the budget.",
+    // Add 90 more funny/realistic reasons
+];
+
+let currentJob = null;
+let money = 0;
+let salary = 0;
+
+function populateJobs() {
+    const selector = document.getElementById("jobSelector");
+    jobs.forEach(job => {
+        const option = document.createElement("option");
+        option.value = job.name;
+        option.textContent = job.name;
+        selector.appendChild(option);
+    });
+}
+
+function selectJob() {
+    const jobName = document.getElementById("jobSelector").value;
+    currentJob = jobs.find(j => j.name === jobName);
+    salary = currentJob.baseSalary;
+    document.getElementById("currentJob").textContent = currentJob.name;
+    document.getElementById("salary").textContent = salary;
+    document.querySelector(".main-ui").classList.remove("hidden");
+    renderActions();
+}
+
+function renderActions() {
+    const actionsDiv = document.getElementById("jobActions");
+    actionsDiv.innerHTML = "";
+    currentJob.actions.forEach(action => {
+        const btn = document.createElement("button");
+        btn.textContent = action;
+        btn.onclick = () => performAction(action);
+        actionsDiv.appendChild(btn);
+    });
+}
+
+function performAction(actionName) {
+    console.log(`Performed action: ${actionName}`);
+    // Placeholder: Later add unique effects per action
+}
+
+function requestRaise() {
+    if (Math.random() < 0.5) {
+        const raiseAmount = Math.floor(Math.random() * 200) + 100;
+        salary += raiseAmount;
+        alert(`Raise approved! +$${raiseAmount} per minute`);
+        document.getElementById("salary").textContent = salary;
+    } else {
+        const reason = raiseDenialReasons[Math.floor(Math.random() * raiseDenialReasons.length)];
+        alert(`Raise denied: ${reason}`);
+    }
+}
+
+function givePaycheck() {
+    money += salary;
+    document.getElementById("money").textContent = money;
+    showNotification(`💰 Paycheck: +$${salary}`);
+}
+
+function showNotification(message) {
+    const note = document.createElement("div");
+    note.className = "notification";
+    note.textContent = message;
+    document.getElementById("notificationContainer").appendChild(note);
+    setTimeout(() => note.remove(), 4000);
+}
+
+window.onload = () => {
+    populateJobs();
+    setInterval(givePaycheck, 60000); // Every 60 seconds
+};
+</script>
 </body>
 </html>
