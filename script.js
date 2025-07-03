@@ -184,4 +184,3 @@ window.onload = () => {
     populateShop();
     load();
 };
-
