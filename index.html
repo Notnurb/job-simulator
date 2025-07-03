@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Job Simulator</title>
+    <link rel="stylesheet" href="styles/style.css">
+</head>
+<body>
+    <div class="app">
+        <header>
+            <h1>Job Simulator</h1>
+            <p>Choose your job, earn money, and upgrade your life!</p>
+        </header>
+        <section class="job-selection">
+            <h2>Select Your Job</h2>
+            <select id="jobSelector"></select>
+            <button onclick="selectJob()">Start Job</button>
+        </section>
+        <section class="main-ui hidden">
+            <div class="stats">
+                <p><strong>Job:</strong> <span id="currentJob">None</span></p>
+                <p><strong>Money:</strong> $<span id="money">0</span></p>
+                <p><strong>Salary:</strong> $<span id="salary">0</span> / click</p>
+            </div>
+            <div class="actions">
+                <button onclick="doWork()">Work</button>
+                <button onclick="requestRaise()">Request Raise</button>
+                <button onclick="takeBreak()">Take a Break</button>
+            </div>
+            <div class="shop">
+                <h2>Shop</h2>
+                <div id="shopItems"></div>
+            </div>
+            <div class="inventory">
+                <h2>Your Upgrades</h2>
+                <div id="inventoryItems"></div>
+            </div>
+        </section>
+    </div>
+    <script src="scripts/script.js"></script>
+</body>
+</html>
